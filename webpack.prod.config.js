@@ -4,14 +4,14 @@ var outDirectory = 'dist';
 
 module.exports = {
   entry: [
-    './client'
+    './src/client'
   ],
   resolve: {
     modulesDirectories: ['node_modules', 'shared'],
-    extensions:        ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx']
   },
   output: {
-    path:     path.join(__dirname, outDirectory),
+    path: path.join(__dirname, outDirectory),
     filename: 'bundle.js'
   },
   module: {
