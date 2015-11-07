@@ -3,11 +3,11 @@ import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import createLocation            from 'history/lib/createLocation';
-import routes                    from 'routes';
+import routes                    from './shared/routes';
 import { Provider }              from 'react-redux';
-import * as reducers             from 'reducers';
-import promiseMiddleware         from 'lib/promiseMiddleware';
-import fetchComponentData        from 'lib/fetchComponentData';
+import * as reducers             from './shared/reducers';
+import promiseMiddleware         from './shared/lib/promiseMiddleware';
+import fetchComponentData        from './shared/lib/fetchComponentData';
 import { createStore,
          combineReducers,
          applyMiddleware } from 'redux';
@@ -17,7 +17,7 @@ const app = express();
 // So the example quote unquote 'production mode' works
 import fs from 'fs';
 app.use('/bundle.js', function (req, res) {
-  return fs.createReadStream('./dist/bundle.js').pipe(res);
+  return fs.createReadStream('../dist/bundle.js').pipe(res);
 });
 
 app.use( (req, res) => {
