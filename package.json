@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_PATH=$NODE_PATH:./shared node --harmony ./src/.",
+    "start-prod": "npm run build & npm run start",
     "dev": "npm run start & webpack-dev-server --progress --color",
     "build": "NODE_ENV=production webpack --progress --color -p --config webpack.prod.config.js",
     "postinstall": "node scripts/postinstall.js"

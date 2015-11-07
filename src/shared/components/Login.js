@@ -4,6 +4,7 @@ export default React.createClass({
   componentDidMount() {
     this.lock = new Auth0Lock('DEn8EdLDpWRgzCBu8XWdhd7CF9BSTkhu', 'jsfeb26.auth0.com');
   },
+
   showLock() {
     this.lock.show();
   },

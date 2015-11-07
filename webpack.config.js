@@ -15,13 +15,7 @@ module.exports = Object.assign(prodCfg, {
         test:    /\.jsx?$/,
         exclude: /node_modules/,
         loaders: ['react-hot', 'babel']
-      },
-      {
-        test: /node_modules\/auth0-lock\/.*\.js$/,
-        loaders: ['transform/cacheable?brfs', 'transform/cacheable?packageify']
-      },
-      {test: /\.ejs$/, loader: 'ejs-compiled'},
-      {test: /\.json$/, loader: 'json'}
+      }
     ]
   },
   plugins: [

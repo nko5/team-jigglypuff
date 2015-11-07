@@ -8,7 +8,6 @@ export default class MainView extends React.Component {
   render() {
     return (
       <div id="main-view">
-        <script src="http://cdn.auth0.com/js/lock-7.min.js"></script>
         <h1>Barter</h1>
 
         <hr />
