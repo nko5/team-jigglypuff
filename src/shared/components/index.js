@@ -5,10 +5,6 @@ export default class MainView extends React.Component {
     children: PropTypes.object
   }
 
-  componentDidMount = () => {
-    this.props.history.pushState(null, '/home');
-  }
-
   render() {
     return (
       <div id="main-view">

@@ -1,8 +1,8 @@
 'use latest';
 
-const express         = require('express');
-const webtask         = require('webtask-tools');
-const Bluebird        = require('bluebird');
+const express = require('express');
+const webtask = require('webtask-tools');
+const Bluebird = require('bluebird');
 const { MongoClient } = require('mongodb');
 
 const app = express();
@@ -11,7 +11,7 @@ Bluebird.promisifyAll(MongoClient);
 
 app.post('/', function (req, res) {
   const MONGO_URL = req.webtaskContext.data.MONGO_URL;
-  const text      = req.webtaskContext.data.text;
+  const text = req.webtaskContext.data.text;
 
   MongoClient.connectAsync(MONGO_URL)
     .then(db => {

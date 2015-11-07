@@ -1,10 +1,12 @@
-import React                   from 'react';
+import React from 'react';
 import { DefaultRoute, Route } from 'react-router';
-import App                     from './components/index';
-import Home                    from './components/Home';
+import App from './components/index';
+import Home from './components/Home';
+import Login from './components/Login';
 
 export default (
   <Route name="app" component={App} path="/">
-      <Route component={Home} path="home" />
+    <Route name="login" component={Login} path="login" />
+    <Route name="home" component={Home} path="home" />
   </Route>
 );
