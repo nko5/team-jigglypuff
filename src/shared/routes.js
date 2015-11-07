@@ -4,9 +4,16 @@ import App from './components/index';
 import Home from './components/Home';
 import Login from './components/Login';
 
+function requireAuth(nextState, replaceState) {
+  console.log('auth');
+  if (true) {
+    replaceState({ nextPathname: nextState.location.pathname }, '/login/')
+  }
+}
+
 export default (
   <Route name="app" component={App} path="/">
     <Route name="login" component={Login} path="login" />
-    <Route name="home" component={Home} path="home" />
+    <Route name="home" component={Home} path="home" onEnter={requireAuth} />
   </Route>
 );

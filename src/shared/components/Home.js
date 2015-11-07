@@ -7,9 +7,9 @@ import { connect }            from 'react-redux';
 
 @connect(state => ({ todos: state.todos }))
 
-export default class Home extends React.Component {
+export default  class Home extends React.Component {
   static propTypes = {
-    todos:    PropTypes.any.isRequired,
+    todos: PropTypes.any.isRequired,
     dispatch: PropTypes.func.isRequired
   }
 
@@ -30,4 +30,4 @@ export default class Home extends React.Component {
       </div>
     );
   }
-}
+};

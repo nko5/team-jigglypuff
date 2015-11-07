@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import * as AuthActions from '../actions/AuthActions';
+import { connect } from 'react-redux';
 
-export default React.createClass({
+const Login = React.createClass({
+  propTypes: {
+    auth: PropTypes.any.isRequired,
+    dispatch: PropTypes.func.isRequired
+  },
+
   componentDidMount() {
     this.lock = new Auth0Lock('DEn8EdLDpWRgzCBu8XWdhd7CF9BSTkhu', 'jsfeb26.auth0.com');
   },
@@ -21,3 +29,5 @@ export default React.createClass({
     );
   }
 });
+
+export default connect(state => ({auth: state.auth}))(Login);
