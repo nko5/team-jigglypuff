@@ -1,15 +1,35 @@
 {
-  "name": "nko2015-entry",
+  "name": "Barter",
   "version": "0.0.1",
-  "description": "Our soon to be awesome entry for NKO2015. Let's make something amazing.",
-  "author": "Node Knockout Team <all@nodeknockout.com>",
-  "main": "./app.js",
-  "dependencies": {
-    "express": "3.x.x"
-  },
+  "description": "Online Trading Platform",
+  "author": "Jason Stinson",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "NODE_PATH=$NODE_PATH:./shared node --harmony .",
+    "dev": "npm run start & webpack-dev-server --progress --color",
+    "build": "NODE_ENV=production webpack --progress --color -p --config webpack.prod.config.js",
     "postinstall": "node scripts/postinstall.js"
+  },
+  "dependencies": {
+    "axios": "^0.7.0",
+    "babel": "^5.8.23",
+    "express": "^4.13.3",
+    "history": "^1.9.1",
+    "immutable": "^3.7.5",
+    "object-assign": "^4.0.1",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
+    "react-redux": "^4.0.0",
+    "react-router": "1.0.0-rc3",
+    "redux": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.1.2",
+    "babel-loader": "^5.3.2",
+    "eslint": "^1.4.3",
+    "eslint-plugin-react": "^3.3.2",
+    "react-hot-loader": "^1.3.0",
+    "webpack": "^1.12.1",
+    "webpack-dev-server": "^1.11.0"
   }
-
 }
