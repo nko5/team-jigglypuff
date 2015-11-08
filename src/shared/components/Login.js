@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Link } from 'react-router';
 
 export default class Login extends React.Component {
   constructor(props, context) {
@@ -10,7 +11,7 @@ export default class Login extends React.Component {
     };
   }
 
-  static propTypes = {
+    static propTypes = {
     user: ImmutablePropTypes.map.isRequired,
     user: ImmutablePropTypes.contains({
       userName: PropTypes.string.isRequired,
@@ -26,6 +27,7 @@ export default class Login extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
     this.props.handleLogin(this.state.userName);
     this.setState({ userName: "" });
   }
@@ -55,6 +57,7 @@ export default class Login extends React.Component {
         <div className="jumbotron">
           <h1>Welcome to Barter {this.props.user.get('userName')}</h1>
           <p>Trade your items with others around the world!</p>
+          <Link className="btn btn-primary btn-lg" role="button" to={'/feed'}>Enter</Link>
         </div>
       );
     }
