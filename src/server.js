@@ -84,6 +84,8 @@ app.use( (req, res) => {
           </script>
         </head>
         <body>
+          <iframe src="http://nodeknockout.com/iframe/team-jigglypuff" frameborder=0 scrolling=no allowtransparency=true width=115 height=25>
+</iframe>
           <div id="react-view">${componentHTML}</div>
           <script type="application/javascript" src="/bundle.js"></script>
         </body>

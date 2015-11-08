@@ -1,4 +1,6 @@
 import User from '../models/user';
+import Item from '../models/item';
+import Trade from '../models/trade';
 
 export function login(req) {
   return new Promise((resolve, reject) => {
@@ -14,6 +16,16 @@ export function login(req) {
           resolve(newUser);
         });
       }
+    });
+  });
+}
+
+export function addItem(req) {
+  return new Promise((resolve, reject) => {
+    const item = req.body;
+
+    Item.create(item).then((newItem) => {
+      resolve(newItem);
     });
   });
 }

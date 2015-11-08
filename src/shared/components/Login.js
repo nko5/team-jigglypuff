@@ -28,8 +28,13 @@ export default class Login extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    this.props.handleLogin(this.state.userName);
-    this.setState({ userName: "" });
+    if (this.state.userName.length > 0) {
+      this.props.handleLogin(this.state.userName);
+      this.setState({ userName: "" });
+    }
+    else {
+      alert("Please enter a User Name");
+    }
   }
 
   renderPage() {
@@ -38,7 +43,7 @@ export default class Login extends React.Component {
         <div className="jumbotron">
           <h1>Welcome to Barter</h1>
           <p>Trade your items with others around the world!</p>
-          <form className="navbar-form navbar-left" role="search" onSubmit={this.handleSubmit.bind(this)}>
+          <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
             <div className="form-group">
               <input
                 type="text"
@@ -47,7 +52,7 @@ export default class Login extends React.Component {
                 value={this.state.userName}
                 onChange={this.handleInputChange.bind(this)} />
             </div>
-            <button type="submit" className="btn btn-default">Access the Trade</button>
+            <button type="submit" className="btn btn-primary signin">Sign in</button>
           </form>
         </div>
       );

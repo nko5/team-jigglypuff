@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 
+import AddItem from './AddItem';
+
 export default class UserItems extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -17,7 +19,7 @@ export default class UserItems extends React.Component {
     if (this.props.isLoggedOn) {
       return (
         <div>
-          User Item Page
+          <AddItem handleAddItem={this.props.handleAddItem} />
         </div>
       );
     }

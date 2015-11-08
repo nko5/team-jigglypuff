@@ -11,7 +11,7 @@ export function addItemRequest(item) {
   }
 }
 
-export function addItemClient(name, description, id) {
+function addItemClient(name, description, id) {
   return {
     type: 'ADD_ITEM',
     name,
