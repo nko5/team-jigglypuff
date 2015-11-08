@@ -1,41 +1,32 @@
-import express from 'express';
+import path from 'path';
+import Express from 'express';
 import React from 'react';
+import routes from './shared/routes';
+import configureStore from './shared/store/configureStore';
+import { Provider } from 'react-redux';
+
 import { renderToString } from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import createLocation from 'history/lib/createLocation';
-import routes from './shared/routes';
-import { Provider } from 'react-redux';
-import * as reducers from './shared/reducers';
-import promiseMiddleware from './shared/lib/promiseMiddleware';
 import fetchComponentData from './shared/lib/fetchComponentData';
-import { createStore, combineReducers, applyMiddleware }  from 'redux';
-import path from 'path';
 
-const app = express();
+const app = Express();
 
-// So the example quote unquote 'production mode' works
-import fs from 'fs';
-app.use('/bundle.js', function (req, res) {
-  return fs.createReadStream('./dist/bundle.js').pipe(res);
-});
-
-app.use('/api', (req, res) => {
-  return res.status(406);
-});
+app.use(Express.static(path.join(__dirname, '..', 'dist')));
 
 app.use( (req, res) => {
   const location = createLocation(req.url);
-  const reducer = combineReducers(reducers);
-  const store = applyMiddleware(promiseMiddleware)(createStore)(reducer);
+  const store = configureStore({});
 
   match({ routes, location }, (err, redirectLocation, renderProps) => {
-    if(err) {
+    if (err) {
       console.error(err);
       return res.status(500).end('Internal server error');
     }
 
-    if(!renderProps)
+    if (!renderProps) {
       return res.status(404).end('Not found');
+    }
 
     function renderView() {
       const InitialView = (
