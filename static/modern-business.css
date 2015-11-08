@@ -94,3 +94,7 @@ footer {
         height: 70%;
     }
 }
+
+.navAuthLogout {
+  cursor: pointer;
+}

@@ -19,9 +19,18 @@ export function loginClient(userName, userId) {
   }
 }
 
-export function logout(id) {
+export function logout() {
+  return dispatch => {
+    return request
+            .post('/api/logout')
+            .end((err, res) => {
+              dispatch(logoutClient());
+            });
+  }
+}
+
+export function logoutClient() {
   return {
-    type: 'SIGN_OUT',
-    id
+    type: 'SIGN_OUT'
   }
 }

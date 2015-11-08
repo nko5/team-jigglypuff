@@ -16,7 +16,12 @@ export default function authReducer(state = defaultState, action) {
       });
 
     case 'SIGN_OUT':
-      return state.set(defaultState);
+      return state.merge({
+        'userName': '',
+        'userId': '',
+        'isLoggedOn': false
+      });
+
     default:
       return state;
   }

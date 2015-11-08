@@ -11,7 +11,7 @@ export default class Login extends React.Component {
     };
   }
 
-    static propTypes = {
+  static propTypes = {
     user: ImmutablePropTypes.map.isRequired,
     user: ImmutablePropTypes.contains({
       userName: PropTypes.string.isRequired,
