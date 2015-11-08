@@ -8,7 +8,8 @@ import { Provider } from 'react-redux';
 import * as reducers from './shared/reducers';
 import promiseMiddleware from './shared/lib/promiseMiddleware';
 import fetchComponentData from './shared/lib/fetchComponentData';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware }  from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import path from 'path';
 
 const app = express();
@@ -21,7 +22,10 @@ app.use('/bundle.js', function (req, res) {
 
 app.use( (req, res) => {
   const location = createLocation(req.url);
-  const reducer = combineReducers(reducers);
+  const reducer = combineReducers({
+    ...reducers,
+    form: formReducer
+  });
   const store = applyMiddleware(promiseMiddleware)(createStore)(reducer);
 
   match({ routes, location }, (err, redirectLocation, renderProps) => {
@@ -44,11 +48,6 @@ app.use( (req, res) => {
 
       const initialState = store.getState();
 
-      let auth0Script = "";
-      if (renderProps.location.pathname.indexOf("login") > -1) {
-        auth0Script = '<script src="http://cdn.auth0.com/js/lock-7.9.min.js"></script>';
-      }
-
       const HTML = `
       <!DOCTYPE html>
       <html>
@@ -57,8 +56,6 @@ app.use( (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
           <title>Barter</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-          ${auth0Script}
 
           <script>
             window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
