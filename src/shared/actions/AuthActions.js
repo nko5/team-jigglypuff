@@ -1,7 +1,8 @@
 export function login(userName) {
   return {
     type: 'SIGN_IN',
-    userName
+    userName,
+    userId: "1"
   }
 }
 

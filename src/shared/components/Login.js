@@ -4,10 +4,9 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 export default class Login extends React.Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = {
-      userName: this.props.user.userName || "",
-      userId: this.props.user.userId || "",
-      isLoggedOn: this.props.user.isLoggedOn
+      userName: ""
     };
   }
 
@@ -27,12 +26,12 @@ export default class Login extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state.userName);
     this.props.handleLogin(this.state.userName);
+    this.setState({ userName: "" });
   }
 
   renderPage() {
-    if (!this.state.isLoggedOn) {
+    if (!this.props.user.get('isLoggedOn')) {
       return (
         <div className="jumbotron">
           <h1>Welcome to Barter</h1>
@@ -54,7 +53,7 @@ export default class Login extends React.Component {
     else {
       return (
         <div className="jumbotron">
-          <h1>Welcome to Barter {this.state.userName}</h1>
+          <h1>Welcome to Barter {this.props.user.get('userName')}</h1>
           <p>Trade your items with others around the world!</p>
         </div>
       );

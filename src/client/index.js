@@ -9,16 +9,12 @@ import routes from 'routes';
 import promiseMiddleware from 'lib/promiseMiddleware';
 import immutifyState from 'lib/immutifyState';
 import { createStore, combineReducers, applyMiddleware }  from 'redux';
-import { reducer as formReducer } from 'redux-form';
 
 const initialState = immutifyState(window.__INITIAL_STATE__);
 
 const history = createBrowserHistory();
 
-const reducer = combineReducers({
-  ...reducers,
-  form: formReducer
-});
+const reducer = combineReducers(reducers);
 const store = applyMiddleware(promiseMiddleware)(createStore)(reducer, initialState);
 
 render(

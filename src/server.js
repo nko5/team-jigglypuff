@@ -9,7 +9,6 @@ import * as reducers from './shared/reducers';
 import promiseMiddleware from './shared/lib/promiseMiddleware';
 import fetchComponentData from './shared/lib/fetchComponentData';
 import { createStore, combineReducers, applyMiddleware }  from 'redux';
-import { reducer as formReducer } from 'redux-form';
 import path from 'path';
 
 const app = express();
@@ -20,12 +19,13 @@ app.use('/bundle.js', function (req, res) {
   return fs.createReadStream('./dist/bundle.js').pipe(res);
 });
 
+app.use('/api', (req, res) => {
+  return res.status(406);
+});
+
 app.use( (req, res) => {
   const location = createLocation(req.url);
-  const reducer = combineReducers({
-    ...reducers,
-    form: formReducer
-  });
+  const reducer = combineReducers(reducers);
   const store = applyMiddleware(promiseMiddleware)(createStore)(reducer);
 
   match({ routes, location }, (err, redirectLocation, renderProps) => {
