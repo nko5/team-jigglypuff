@@ -20,6 +20,7 @@ const app = Express();
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
+app.use(Express.static(path.join(__dirname, '..', 'static')));
 app.use(Express.static(path.join(__dirname, '..', 'dist')));
 
 app.use(session({
@@ -77,7 +78,7 @@ app.use( (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
           <title>Barter</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
+          <link rel="stylesheet" href="/modern-business.css">
           <script>
             window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
           </script>

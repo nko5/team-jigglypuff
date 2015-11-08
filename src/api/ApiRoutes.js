@@ -10,4 +10,9 @@ router.post('/login', function(req, res) {
   });
 });
 
+router.post('/logout', function(req, res) {
+  req.session.currentUser = null;
+  res.json("Successfully Logged Out!");
+});
+
 export default router;
