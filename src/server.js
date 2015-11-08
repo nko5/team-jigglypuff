@@ -1,22 +1,52 @@
+require('./db/connect'); // connects to the mongo database
 import path from 'path';
 import Express from 'express';
+import session from 'express-session';
 import React from 'react';
 import routes from './shared/routes';
 import configureStore from './shared/store/configureStore';
 import { Provider } from 'react-redux';
-
+import compression from 'compression';
+import favicon from 'serve-favicon';
 import { renderToString } from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import createLocation from 'history/lib/createLocation';
 import fetchComponentData from './shared/lib/fetchComponentData';
+import apiRoutes from './api/ApiRoutes';
+import bodyParser from 'body-parser';
+import Immutable from 'immutable';
 
 const app = Express();
 
+app.use(compression());
+app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 app.use(Express.static(path.join(__dirname, '..', 'dist')));
+
+app.use(session({
+  secret: 'nodeKO2015',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 }
+}));
+
+app.use(bodyParser.json());
+app.use('/api', apiRoutes);
 
 app.use( (req, res) => {
   const location = createLocation(req.url);
-  const store = configureStore({});
+
+  let initialState = {};
+  if (req.session.currentUser) {
+    const currentUser = req.session.currentUser;
+    const initialAuth = new Immutable.Map({
+      'userName': currentUser.UserName,
+      'userId': currentUser._id,
+      'isLoggedOn': true
+    });
+
+    initialState = { auth: initialAuth };
+  }
+  const store = configureStore(initialState);
 
   match({ routes, location }, (err, redirectLocation, renderProps) => {
     if (err) {

@@ -19,7 +19,6 @@ export default class Home extends React.Component {
 
   render() {
     const { todos, dispatch } = this.props;
-    console.log('todorender');
 
     return (
       <div id="todo-list">

@@ -14,9 +14,13 @@
   "dependencies": {
     "axios": "^0.7.0",
     "babel": "^5.8.23",
+    "body-parser": "^1.14.1",
+    "compression": "^1.6.0",
     "express": "^4.13.3",
+    "express-session": "^1.12.1",
     "history": "^1.9.1",
     "immutable": "^3.7.5",
+    "mongoose": "^4.2.4",
     "object-assign": "^4.0.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
@@ -24,7 +28,9 @@
     "react-redux": "^4.0.0",
     "react-router": "1.0.0-rc3",
     "redux": "^3.0.0",
-    "redux-thunk": "^1.0.0"
+    "redux-thunk": "^1.0.0",
+    "serve-favicon": "^2.3.0",
+    "superagent": "^1.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.2",
