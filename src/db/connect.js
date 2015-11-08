@@ -1,3 +1,3 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb://localhost/barter');
+mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/barter');

@@ -26,7 +26,7 @@ app.use(session({
   secret: 'nodeKO2015',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 60 * 60 * 1000 }
 }));
 
 app.use(bodyParser.json());

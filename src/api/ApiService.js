@@ -4,10 +4,10 @@ export function login(req) {
   return new Promise((resolve, reject) => {
     const UserName = req.body['userName'].trim();
 
-    User.findOne({ UserName }).exec()
+    User.find({ UserName }).limit(1).exec()
     .then((user) => {
       if (user.length > 0) {
-        resolve(user);
+        resolve(user[0]);
       }
       else {
         User.create({ UserName }).then((newUser) => {
