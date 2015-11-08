@@ -1,7 +1,5 @@
 var path = require('path');
 
-var outDirectory = 'dist';
-
 module.exports = {
   entry: [
     './src/client'
@@ -11,7 +9,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   output: {
-    path: path.join(__dirname, outDirectory),
+    path: path.join(__dirname, '/dist'),
     filename: 'bundle.js'
   },
   module: {
@@ -20,7 +18,12 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: ['babel']
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        loaders: ["style-loader!css-loader"]
       }
     ]
-  },
+  }
 };

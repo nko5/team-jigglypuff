@@ -1,37 +1,62 @@
-import express from 'express';
+require('./db/connect'); // connects to the mongo database
+import path from 'path';
+import Express from 'express';
+import session from 'express-session';
 import React from 'react';
+import routes from './shared/routes';
+import configureStore from './shared/store/configureStore';
+import { Provider } from 'react-redux';
+import compression from 'compression';
+import favicon from 'serve-favicon';
 import { renderToString } from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import createLocation from 'history/lib/createLocation';
-import routes from './shared/routes';
-import { Provider } from 'react-redux';
-import * as reducers from './shared/reducers';
-import promiseMiddleware from './shared/lib/promiseMiddleware';
 import fetchComponentData from './shared/lib/fetchComponentData';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import path from 'path';
+import apiRoutes from './api/ApiRoutes';
+import bodyParser from 'body-parser';
+import Immutable from 'immutable';
 
-const app = express();
+const app = Express();
 
-// So the example quote unquote 'production mode' works
-import fs from 'fs';
-app.use('/bundle.js', function (req, res) {
-  return fs.createReadStream('./dist/bundle.js').pipe(res);
-});
+app.use(compression());
+app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
+app.use(Express.static(path.join(__dirname, '..', 'dist')));
+
+app.use(session({
+  secret: 'nodeKO2015',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60 * 60 * 1000 }
+}));
+
+app.use(bodyParser.json());
+app.use('/api', apiRoutes);
 
 app.use( (req, res) => {
   const location = createLocation(req.url);
-  const reducer = combineReducers(reducers);
-  const store = applyMiddleware(promiseMiddleware)(createStore)(reducer);
+
+  let initialState = {};
+  if (req.session.currentUser) {
+    const currentUser = req.session.currentUser;
+    const initialAuth = new Immutable.Map({
+      'userName': currentUser.UserName,
+      'userId': currentUser._id,
+      'isLoggedOn': true
+    });
+
+    initialState = { auth: initialAuth };
+  }
+  const store = configureStore(initialState);
 
   match({ routes, location }, (err, redirectLocation, renderProps) => {
-    if(err) {
+    if (err) {
       console.error(err);
       return res.status(500).end('Internal server error');
     }
 
-    if(!renderProps)
+    if (!renderProps) {
       return res.status(404).end('Not found');
+    }
 
     function renderView() {
       const InitialView = (
@@ -44,11 +69,6 @@ app.use( (req, res) => {
 
       const initialState = store.getState();
 
-      let auth0Script = "";
-      if (renderProps.location.pathname.indexOf("login") > -1) {
-        auth0Script = '<script src="http://cdn.auth0.com/js/lock-7.9.min.js"></script>';
-      }
-
       const HTML = `
       <!DOCTYPE html>
       <html>
@@ -57,8 +77,6 @@ app.use( (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
           <title>Barter</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-          ${auth0Script}
 
           <script>
             window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};

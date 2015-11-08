@@ -1,23 +1,74 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Link } from 'react-router';
 
-export default React.createClass({
-  componentDidMount() {
-    this.lock = new Auth0Lock('DEn8EdLDpWRgzCBu8XWdhd7CF9BSTkhu', 'jsfeb26.auth0.com');
-  },
+export default class Login extends React.Component {
+  constructor(props, context) {
+    super(props, context);
 
-  showLock() {
-    this.lock.show();
-  },
+    this.state = {
+      userName: ""
+    };
+  }
+
+    static propTypes = {
+    user: ImmutablePropTypes.map.isRequired,
+    user: ImmutablePropTypes.contains({
+      userName: PropTypes.string.isRequired,
+      userId: PropTypes.string.isRequired,
+      isLoggedOn: PropTypes.bool.isRequired
+    }),
+    handleLogin: PropTypes.func.isRequired
+  }
+
+  handleInputChange(e) {
+    this.setState({ userName: e.target.value });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    this.props.handleLogin(this.state.userName);
+    this.setState({ userName: "" });
+  }
+
+  renderPage() {
+    if (!this.props.user.get('isLoggedOn')) {
+      return (
+        <div className="jumbotron">
+          <h1>Welcome to Barter</h1>
+          <p>Trade your items with others around the world!</p>
+          <form className="navbar-form navbar-left" role="search" onSubmit={this.handleSubmit.bind(this)}>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="User Name"
+                value={this.state.userName}
+                onChange={this.handleInputChange.bind(this)} />
+            </div>
+            <button type="submit" className="btn btn-default">Access the Trade</button>
+          </form>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="jumbotron">
+          <h1>Welcome to Barter {this.props.user.get('userName')}</h1>
+          <p>Trade your items with others around the world!</p>
+          <Link className="btn btn-primary btn-lg" role="button" to={'/feed'}>Enter</Link>
+        </div>
+      );
+    }
+  }
 
   render() {
     return (
       <div className="container">
-        <div className="jumbotron">
-          <h1>Welcome to Barter</h1>
-          <p>Trade your items with others around the world!</p>
-          <p><a className="btn btn-primary btn-lg" onClick={this.showLock} role="button">Access the Trade</a></p>
-        </div>
+        {this.renderPage()}
       </div>
     );
   }
-});
+}
+
