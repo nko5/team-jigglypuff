@@ -98,3 +98,11 @@ footer {
 .navAuthLogout {
   cursor: pointer;
 }
+
+.btn.signin {
+  margin-left: 5px;
+}
+
+.static-size {
+  resize: none;
+}

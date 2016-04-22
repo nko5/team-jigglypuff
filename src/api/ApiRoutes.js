@@ -15,4 +15,10 @@ router.post('/logout', function(req, res) {
   res.json("Successfully Logged Out!");
 });
 
+router.post('/addItem', function(req, res) {
+  apiService.addItem(req).then((item) => {
+    res.json(item);
+  });
+});
+
 export default router;
